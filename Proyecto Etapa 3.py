@@ -77,11 +77,7 @@ def upload_data():
                 vehiclesIdList.append(int(fila[0]))
                 VEHICLE_CAPACITY= int(fila[1])
     
-    preprocessData()
 
-
-def preprocessData():
-    a=0
 upload_data()
 id_to_index = {id_: idx for idx, id_ in enumerate(locationIdList)}
 distance_matrix = haversine_distance_matrix(latitudeList, longitudeList)
@@ -117,7 +113,7 @@ def create_individual():
     # Si quedaron clientes sin asignar, se pueden considerar en la función de fitness
     # como penalización por individuo no factible
     if customers:
-        individual.append(customers)  # Se puede dejar como lista plana para indicar no asignados
+        individual.append(customers)  
 
     return individual
 
@@ -147,7 +143,7 @@ def calculate_fitness(individual):
 
 
     # Fitness inversamente proporcional a la distancia total + penalizaciones
-    return 1 / (total_distance + penalty + 1e-6)  # el +1e-6 evita división por cero
+    return 1 / (total_distance + penalty + 1e-6)  
 
 
 
@@ -160,7 +156,7 @@ def select_population(population, fitnesses):
 def mutate(individual):
     """Mutación de intercambio de 2 puntos."""
     route_idx = random.randint(0, len(individual) - 1)
-    route = individual[route_idx][1:-1]  # sin contar el depósito
+    route = individual[route_idx][1:-1]  # No cuenta el deposito
     if len(route) >= 2:
         i, j = random.sample(range(len(route)), 2)
         route[i], route[j] = route[j], route[i]
@@ -180,7 +176,7 @@ def crossover(parent1, parent2):
     # Máscara binaria aleatoria de tamaño mínimo común
     mode = [random.randint(0, 1) for _ in range(min_len)]
 
-    # Paso 1: copiar rutas según máscara
+    # Paso 1: Copiar rutas según máscara
     for idx in range(min_len):
         source = parent1 if mode[idx] else parent2
         route = source[idx]
@@ -189,7 +185,7 @@ def crossover(parent1, parent2):
             child.append(route)
             taken.update(route_clean)
 
-    # Paso 2: agregar rutas restantes (clientes no repetidos)
+    # Paso 2: Agregar rutas restantes (clientes no repetidos)
     for source in [parent1, parent2]:
         for route in source[min_len:]:
             route_clean = [c for c in route if c != DEPOTID and c not in taken]
@@ -199,7 +195,7 @@ def crossover(parent1, parent2):
                     new_route = [DEPOTID] + route_clean + [DEPOTID]
                     child.append(new_route)
                     taken.update(route_clean)
-    # Paso 3: completar con clientes faltantes
+    # Paso 3: Completar con clientes faltantes
     missing = [c for c in demands.keys() if c not in taken]
     if missing:
         new_route = [DEPOTID]
@@ -215,8 +211,8 @@ def crossover(parent1, parent2):
         new_route.append(DEPOTID)
         child.append(new_route)
 
-    # VALIDACIÓN FINAL
-    if not child:  # Si por alguna razón no se armó ninguna ruta
+    
+    if not child:  
         child = [create_individual()[0]]  # al menos 1 ruta válida
 
         
