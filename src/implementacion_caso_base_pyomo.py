@@ -22,7 +22,7 @@ class Caso1:
         longitudeList=[]
         latitudeList=[]
         
-        with open("Caso1/depots.csv", newline='') as archivo_csv:
+        with open("data/depots.csv", newline='') as archivo_csv:
             lector = csv.reader(archivo_csv)
             next(lector)
             for fila in lector:
@@ -31,7 +31,7 @@ class Caso1:
                 longitudeList.append(fila[1])
                 latitudeList.append(fila[2])
         
-        with open("Caso1/clients.csv", newline='') as archivo_csv:
+        with open("data/clients15.csv", newline='') as archivo_csv:
             lector = csv.reader(archivo_csv)
             next(lector)
             for fila in lector:
@@ -41,7 +41,7 @@ class Caso1:
                 longitudeList.append(fila[3])
                 latitudeList.append(fila[4])
                 
-        with open("Caso1/vehicles.csv", newline='') as archivo_csv:
+        with open("data/vehicles.csv", newline='') as archivo_csv:
             lector = csv.reader(archivo_csv)
             next(lector)
             for fila in lector:

@@ -7,8 +7,7 @@ print(f"   Objetivo: {py['obj']:.2f}  |  Tiempo: {py['time']:.2f}s  |  Mem: {py[
 
 print("\n\n*****  GA (metaheurístico) *****")
 ga = run_ga_base(seed=0)
-print(f"   Objetivo: {py['obj']:.2f}  |  Tiempo: {py['time']:.2f}s  |  Mem: {py['mem']:.1f} MB")
-
+print(f"   Objetivo: {ga['obj']:.2f}  |  Tiempo: {ga['time']:.2f}s  |  Mem: {ga['mem']:.1f} MB")
 
 print("\n\n*****  PYOMO (exacto) *****")
 print(f"   Objetivo: {py['obj']:.2f}  |  Tiempo: {py['time']:.2f}s  |  Mem: {py['mem']:.1f} MB")

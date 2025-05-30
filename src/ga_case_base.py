@@ -52,7 +52,7 @@ def upload_data():
     
     
     vehiclesIdList=[]
-    with open("Caso1/depots.csv", newline='') as archivo_csv:
+    with open("data/depots.csv", newline='') as archivo_csv:
         lector = csv.reader(archivo_csv)
         next(lector)
         for fila in lector:
@@ -60,7 +60,7 @@ def upload_data():
             DEPOTID=int(fila[0])
             longitudeList.append(float(fila[1]))
             latitudeList.append(float(fila[2]))
-    with open("Caso1/clients.csv", newline='') as archivo_csv:
+    with open("data/clients15.csv", newline='') as archivo_csv:
             lector = csv.reader(archivo_csv)
             next(lector)
             for fila in lector:
@@ -70,7 +70,7 @@ def upload_data():
                 demands[int(fila[1])]=int(fila[2])
                 longitudeList.append(float(fila[3]))
                 latitudeList.append(float(fila[4]))
-    with open("Caso1/vehicles.csv", newline='') as archivo_csv:
+    with open("data/vehicles.csv", newline='') as archivo_csv:
             lector = csv.reader(archivo_csv)
             next(lector)
             for fila in lector:
