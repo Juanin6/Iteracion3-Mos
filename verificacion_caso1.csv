@@ -1,0 +1,9 @@
+VehicleId,VehicleType,InitialLoad,RouteSequence,ClientsServed,DemandSatisfied,TotalDistance,Cost
+1,Truck,0,CD - CD,0,,0,0
+2,Truck,56,CD - COM08 - COM04 - COM13 - COM03 - CD,4,17-12-12-15,30.95,30945.4
+3,Truck,57,CD - COM09 - COM07 - COM06 - CD,3,20-17-20,16.56,16563.9
+4,Truck,0,CD - CD,0,,0,0
+5,Truck,58,CD - COM14 - COM12 - COM10 - CD,3,21-17-20,23.34,23341.9
+6,Truck,60,CD - COM16 - COM11 - COM02 - COM05 - CD,4,17-15-13-15,27.12,27119.0
+7,Truck,0,CD - CD,0,,0,0
+8,Truck,15,CD - COM15 - CD,1,15,4.0,4004.8

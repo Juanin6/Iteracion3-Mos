@@ -220,31 +220,88 @@ def crossover(parent1, parent2):
     return child
 
 
-# Repetimos el ciclo de evolución usando la nueva función crossover_fixed
-population = [create_individual() for _ in range(POPULATION_SIZE)]
+
+import time, tracemalloc
+
+def run_ga_base(seed=0,
+                pop_size=POPULATION_SIZE,
+                gens=MAX_GENERATIONS,
+                pc=CROSSOVER_PROB,
+                pm=MUTATION_PROB):
+    """
+    Ejecuta el GA sobre la instancia Caso1 y devuelve:
+        { 'obj': distancia*(c_c+c_m),
+          'solution': mejor individuo,
+          'hist': lista mejor_dist por generación,
+          'time': segundos,
+          'mem': MB pico }
+    """
+    random.seed(seed); np.random.seed(seed)
+
+    # Si ya se cargaron datos antes, NO los vuelvas a leer.
+    # (upload_data() se ejecutó en el import y fijó los globals)
+    # -----------------------------------------------------------------
+    population = [create_individual() for _ in range(pop_size)]
+    best_hist = []
+
+    tracemalloc.start()
+    t0 = time.perf_counter()
+
+    for _ in range(gens):
+        fitnesses = [calculate_fitness(ind) for ind in population]
+        best_idx = np.argmax(fitnesses)
+        best_hist.append(1/fitnesses[best_idx])          # distancia bruta
+        new_pop = [population[best_idx]]                 # elitismo
+
+        while len(new_pop) < pop_size:
+            parents = select_population(population, fitnesses)
+            child = crossover(parents[0], parents[1]) if random.random() < pc else parents[0]
+            if random.random() < pm:
+                child = mutate(child)
+            new_pop.append(child)
+        population = new_pop
+
+    runtime  = time.perf_counter() - t0
+    peak_mem = tracemalloc.get_traced_memory()[1] / 1e6
+    tracemalloc.stop()
+
+    best_sol   = max(population, key=calculate_fitness)
+    best_dist  = 1 / calculate_fitness(best_sol)         # km totales
+    best_cost  = best_dist * (c_c + c_m)                 # $ / coste “FO”
+
+    return {"obj": best_cost,
+            "solution": best_sol,
+            "hist": best_hist,
+            "time": runtime,
+            "mem": peak_mem}
 
 
-for gen in range(MAX_GENERATIONS):
-    fitnesses = [calculate_fitness(ind) for ind in population]
-    best_idx = np.argmax(fitnesses)
-    best = population[best_idx]
-    new_population = [best]  # elitismo
+if __name__ == "__main__":
+    # Repetimos el ciclo de evolución usando la nueva función crossover_fixed
+    population = [create_individual() for _ in range(POPULATION_SIZE)]
 
-    while len(new_population) < POPULATION_SIZE:
-        parents = select_population(population, fitnesses)
-        if random.random() < CROSSOVER_PROB:
-            child = crossover(parents[0], parents[1])
-        else:
-            child = parents[0]
-        if random.random() < MUTATION_PROB:
-            child = mutate(child)
-        new_population.append(child)
 
-    population = new_population
+    for gen in range(MAX_GENERATIONS):
+        fitnesses = [calculate_fitness(ind) for ind in population]
+        best_idx = np.argmax(fitnesses)
+        best = population[best_idx]
+        new_population = [best]  # elitismo
 
-# Mejor solución encontrada
-best_solution = max(population, key=calculate_fitness)
-best_distance = 1 / calculate_fitness(best_solution)
+        while len(new_population) < POPULATION_SIZE:
+            parents = select_population(population, fitnesses)
+            if random.random() < CROSSOVER_PROB:
+                child = crossover(parents[0], parents[1])
+            else:
+                child = parents[0]
+            if random.random() < MUTATION_PROB:
+                child = mutate(child)
+            new_population.append(child)
 
-print(best_solution, best_distance*(c_c+c_m))
+        population = new_population
+
+    # Mejor solución encontrada
+    best_solution = max(population, key=calculate_fitness)
+    best_distance = 1 / calculate_fitness(best_solution)
+
+    print(best_solution, best_distance*(c_c+c_m))
 
