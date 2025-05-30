@@ -1,4 +1,4 @@
-from implementacion_caso_base_pyomo import Caso1          
+from src.implementacion_caso_base_pyomo import Caso1          
 import time, tracemalloc
 from pyomo.environ import value
 
