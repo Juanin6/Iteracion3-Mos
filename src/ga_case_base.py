@@ -60,7 +60,7 @@ def upload_data():
             DEPOTID=int(fila[0])
             longitudeList.append(float(fila[1]))
             latitudeList.append(float(fila[2]))
-    with open("Caso1/clients15.csv", newline='') as archivo_csv:
+    with open("Caso1/clients.csv", newline='') as archivo_csv:
             lector = csv.reader(archivo_csv)
             next(lector)
             for fila in lector:

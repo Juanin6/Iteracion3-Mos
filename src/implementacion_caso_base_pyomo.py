@@ -31,7 +31,7 @@ class Caso1:
                 longitudeList.append(fila[1])
                 latitudeList.append(fila[2])
         
-        with open("Caso1/clients15.csv", newline='') as archivo_csv:
+        with open("Caso1/clients.csv", newline='') as archivo_csv:
             lector = csv.reader(archivo_csv)
             next(lector)
             for fila in lector:
@@ -203,8 +203,7 @@ class Caso1:
         
         # Verificar valores de las variables después de la resolución
         
-        
-        print(value(self.model.Obj))
+        print(f"Objetivo: {value(self.model.Obj):.2f}")
         print("\n--- Demanda total atendida por cada vehículo ---")
         for k in self.model.K:
             total_demand = 0
